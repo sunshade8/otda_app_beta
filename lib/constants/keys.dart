@@ -1,0 +1,3 @@
+//지도 api 인증키
+
+const VWORLD_KEY = "60EC8CB8-5172-37D8-8209-EF328723E2D1";
