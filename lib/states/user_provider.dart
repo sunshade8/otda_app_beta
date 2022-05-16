@@ -1,14 +1,18 @@
+import 'package:app_v2/utils/logger.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier{
-  //유저 로그인 여부 프라이빗 변수 선언
-  bool _userLoggedIn = true;
-
-  //프라이빗 변수값 접근 및 변경함수
-  void SetUserAuth(bool authState) {
-    _userLoggedIn = authState;
-    notifyListeners();
+  UserProvider(){
+    initUser();
   }
-  //변경함수에 연결될 외부변수 선언
-  bool get userState => _userLoggedIn;
+  User? _user;
+ void initUser(){
+   FirebaseAuth.instance.authStateChanges().listen((user){
+     _user = user;
+     logger.d('현재 유저상태: $user');
+     notifyListeners();
+   });
+ }
+ User? get user => _user;
 }

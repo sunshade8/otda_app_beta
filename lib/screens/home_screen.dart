@@ -1,11 +1,13 @@
 import 'package:app_v2/screens/home/favorite_page.dart';
 import 'package:app_v2/screens/home/search_screen.dart';
 import 'package:app_v2/states/user_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app_v2/screens/home/items_page.dart';
 import 'package:app_v2/screens/home/closet_page.dart';
 import 'package:app_v2/widget/expandablefab.dart';
+import 'package:app_v2/widget/bannerslider.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -23,7 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('OTDA'),
         actions: [
           IconButton(
-            onPressed: (){},
+            onPressed: (){
+              FirebaseAuth.instance.signOut();
+            },
             icon: Icon(Icons.notifications),
 
           )
@@ -54,8 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
         type: BottomNavigationBarType.fixed,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈',activeIcon: Icon(Icons.home)),
           BottomNavigationBarItem(icon: Icon(Icons.search_rounded), label: '검색',activeIcon: Icon(Icons.search_rounded)),

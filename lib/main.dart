@@ -1,5 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:app_v2/screens/splash_screen.dart';
 import 'package:app_v2/router/location.dart';
@@ -9,10 +11,13 @@ import 'package:app_v2/screens/start/address_page.dart';
 import 'package:app_v2/states/user_provider.dart';
 import 'package:provider/provider.dart';
 //비머 전역 선언
+
+
 final _routerDelegate = BeamerDelegate(
   guards: [BeamGuard(
       pathBlueprints: ['/'],
-      check: (context, location) {return context.watch<UserProvider>().userState;},
+      check: (context, location) {return context.watch<UserProvider>().user != null;
+      },
     showPage: BeamPage(child: StartScreen())
   )],
     locationBuilder: BeamerLocationBuilder(
@@ -37,14 +42,15 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
 
   @override
   Widget build(BuildContext context) {
 
     //첫화면 로딩구현
     return FutureBuilder(
-        future: Future.delayed(Duration(seconds: 3),()=>100),
+        future: _initialization,
         builder: (context, snapshot) {
           return AnimatedSwitcher(
           duration: Duration(milliseconds: 900), //페이드인아웃
